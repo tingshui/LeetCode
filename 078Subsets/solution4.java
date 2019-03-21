@@ -1,5 +1,6 @@
 // dfs
 // same tree with bfs. key idea is that every element has two status, selected or not selected.
+// ending condition: reach last level. All leaf nodes are subsets.
 class Solution {
     public List<List<Integer>> subsets(int[] nums) {
         List<List<Integer>> result = new ArrayList<>();
