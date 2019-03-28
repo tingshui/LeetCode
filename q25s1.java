@@ -1,3 +1,4 @@
+// it takes super long to adjust those pointers. The idea is simple, travel once, go back and reverse sublist. 
 /**
  * Definition for singly-linked list.
  * public class ListNode {
