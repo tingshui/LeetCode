@@ -1,4 +1,10 @@
 // 这个方法不错。是4个中最快的。想法很简单。直接把原来的数组复制就好了。
+// 总结
+//1 两数运算得一数时。
+//2 冒泡 初级并且低效。
+//3 哈希表。
+//4 排序后首尾缩小得到两数。
+//5 知道最大数，使用数组下标最快。
 class Solution {
     public int[] twoSum(int[] nums, int target) {
         if (nums == null || nums.length <= 1){
