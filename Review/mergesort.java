@@ -23,32 +23,26 @@ public class mergesort {
 	}
 
 	private static void merge(int[] nums, int[] left, int[] right){
-		int num_p = 0;
 		int left_p = 0;
 		int right_p = 0;
-		while(num_p < nums.length){
+		for (int num_p = 0; num_p < nums.length; num_p++){
 			if (left_p >= left.length){
 				nums[num_p] = right[right_p];
 				right_p++;
-				num_p++;
 				continue;
 			}
 			if (right_p >= right.length){
 				nums[num_p] = left[left_p];
 				left_p++;
-				num_p++;
 				continue;
 			}
 			if (left[left_p] <= right[right_p]){
 				nums[num_p] = left[left_p];
 				left_p++;
-				num_p++;
-				continue;
 			}
 			else{
 				nums[num_p] = right[right_p];
 				right_p++;
-				num_p++;
 			}
 		}
 	}
