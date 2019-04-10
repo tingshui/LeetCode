@@ -13,6 +13,7 @@ public class quicksort {
 		if (start >= end){
 			return;
 		}
+		// nextInt, generate between 0 (inclusive) and int (exclusive)
 		int piviot = rand.nextInt(end - start + 1)  + start;
 		exchange(nums, piviot, end);
 		int loc_piviot = partition(nums, start, end);
