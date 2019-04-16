@@ -4,9 +4,10 @@ Hash Table / Hash Map / Hash Set 的区别是什么？
     public class Hashtable<K,V> extends Dictionary<K,V> implements Map<K,V>, Cloneable, Serializable  
   Hash Map：AbstractMap类，Map接口
     public class HashMap<K,V> extends AbstractMap<K,V> implements Map<K,V>, Cloneable, Serializable 
-  Hash Set：
+  Hash Set：AbstractSet类
+    public class HashSet<E> extends AbstractSet<E> implements Set<E>, Cloneable, Serializable
 2. 线程安全性不同
-  Hash Table：Synchronize的
+  Hash Table：Synchronize的。HashTable支持序列化，因此在单线程的环境下HashTable相比HashMap效率要低
   Hash Map：非Synchronize的， 并非线程安全的
   Hash Set：
 3. contains方法
@@ -54,6 +55,11 @@ Hash Table / Hash Map / Hash Set 的区别是什么？
 6. 数组初始化和扩容方式不同
   Hash Table：HashTable初始大小是11, Hashtable采用的是2*old+1
   Hash Map：HashMap初始大小是16, HashMap是2*old
+  但是，由于Bucket中的对象是以LinkedList进行保存的，所以在新的HashMap中，两处于同一个Bucket中的对象的顺序会发生反转（LinkedList链表，查询从头查询，插入式从链表头插入），那么问题就来了，若有两个线程同时操作此HashMap，若第一个线程刚好已经完成扩展HashMap的操作，而第二个线程刚好开始扩展HashMap，这个时候就会出现，已经扩展的HashMap作为原始数据，被第二个线程扩展（因此可以看到HashMap并非线程安全的）。
+  Hash Set：
+7. 遍历方式的内部实现上不同
+  Hash Table：Iterator， Enumeration
+  Hash Map：Iterator
   Hash Set：
 
 
