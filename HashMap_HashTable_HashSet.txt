@@ -19,18 +19,18 @@ Hash Table / Hash Map / Hash Set 的区别是什么？
   Hash Table：key和value都不允许出现null值
   Hash Map：key和value都可以出现null值。当get()方法返回null值时，可能是 HashMap中没有该键，也可能使该键所对应的值为null。
   因此，在HashMap中不能由get()方法来判断HashMap中是否存在某个键， 而应该用containsKey()方法来判断。
- 		hmap.put("a", null);
-		hmap.put(null, null);
-		System.out.println(hmap.get(null)); ANS: null, only return the last key that has the value of null
-		System.out.println(hmap.get("a"));  ANS: null, null is the value corresponding to key a
-		System.out.println(hmap.get("b"));  ANS: null, does not contain key b (so we cannot distinguish it from above)
+    hmap.put("a", null);
+    hmap.put(null, null);
+    System.out.println(hmap.get(null)); ANS: null, only return the last key that has the value of null
+    System.out.println(hmap.get("a"));  ANS: null, null is the value corresponding to key a
+    System.out.println(hmap.get("b"));  ANS: null, does not contain key b (so we cannot distinguish it from above)
     System.out.println(hmap.containsKey("b"));  ANS: false. (so this is why we need to use containsKey to judge whether key exists)
     
     hmap.put("a", "b");
-		hmap.put(null, "b");
-		System.out.println(hmap.get("b"));  ANS: null, only return the last key that has the value of b, although both has value b.
+    hmap.put(null, "b");
+    System.out.println(hmap.get("b"));  ANS: null, only return the last key that has the value of b, although both has value b.
     System.out.println(hmap.get(null)); ANS: b
-		System.out.println(hmap.get("a"));  ANS: b
+    System.out.println(hmap.get("a"));  ANS: b    
   Hash Set：
 5. 哈希值的计算方法不同
 如何保存对象：对Key调用hashCode方法，返回的值作为Bucket的位置，讲(key, value)保存到Bucket之中。
@@ -58,8 +58,60 @@ Hash Table / Hash Map / Hash Set 的区别是什么？
   但是，由于Bucket中的对象是以LinkedList进行保存的，所以在新的HashMap中，两处于同一个Bucket中的对象的顺序会发生反转（LinkedList链表，查询从头查询，插入式从链表头插入），那么问题就来了，若有两个线程同时操作此HashMap，若第一个线程刚好已经完成扩展HashMap的操作，而第二个线程刚好开始扩展HashMap，这个时候就会出现，已经扩展的HashMap作为原始数据，被第二个线程扩展（因此可以看到HashMap并非线程安全的）。
   Hash Set：
 7. 遍历方式的内部实现上不同
-  Hash Table：Iterator， Enumeration
+  Hash Table：Iterator，Enumeration
   Hash Map：Iterator
   Hash Set：
+8. 结构
+  Hash Table：
+  Hash Map：Hashmap是一个数组和链表的结合体。当我们往hashmap中put元素的时候，先根据key的hash值得到这个元素在数组中的位置（即下标），然后就可以把这个元素放到对应的位置中了。如果这个元素所在的位子上已经存放有其他元素了，那么在同一个位子上的元素将以链表的形式存放，新加入的放在链头，最先加入的放在链尾。
+  Hash Set：HashSet内部就是使用Hashmap实现的，和Hashmap不同的是它不需要Key和Value两个值。往hashset中插入对象其实只不过是内部做了
+    public boolean add(Object o) {
+        return map.put(o, PRESENT)==null;
+    }
+9. 使用
+  Hash Table：
+    Hashtable<String, String> hashtable = new Hashtable<String, String>();
+    hashtable.put();
+    Set<String> keys = hashtable.keySet();
+    Iterator<String> itr = keys.iterator();
+    while (itr.hasNext()) { 
+       str = itr.next();
+       System.out.println("Key: "+str+" & Value: "+hashtable.get(str));
+    } 
+
+  Hash Map：
+    HashMap<String, String> hmap =  new HashMap<>();
+    hmap.put();
+    for (Map.Entry<String,String> entry : hmap.entrySet())  
+            System.out.println("Key = " + entry.getKey() + ", Value = " + entry.getValue()); 
+    } 
+    Iterator<Map.Entry<String, String>> itr = gfg.entrySet().iterator();    
+    while(itr.hasNext()) { 
+        Map.Entry<String, String> entry = itr.next(); 
+        System.out.println("Key = " + entry.getKey() +  ", Value = " + entry.getValue()); 
+    } 
+
+
+  Hash Set：
+    HashSet<String> set = new HashSet<String>();
+    set.add();
+    Iterator itr = set.iterator(); 
+    while (itr.hasNext()) { 
+        System.out.println(itr.next());
+    }
+    for (String temp : set) {
+        System.out.println(temp);
+    }
+10. 运行时间
+  Hash Table：O(1) average,  O(n) worst case time complexity.
+  Hash tables suffer from O(n) worst time complexity due to two reasons:
+  -- If too many elements were hashed into the same key: looking inside this key may take O(n) time.
+  --Once a hash table has passed its load balance - it has to rehash.
+  However, it is said to be O(1) average and amortized case because:
+  --It is very rare that many items will be hashed to the same key [if you chose a good hash function and you don't have too big load balance.
+  --The rehash operation, which is O(n), can at most happen after n/2 ops, which are all assumed O(1): Thus when you sum the average time per op, you get : (n*O(1) + O(n)) / n) = O(1)
+  Hash Map：
+  Hash Set：
+
 
 
