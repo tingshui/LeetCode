@@ -1,0 +1,59 @@
+Hash Table / Hash Map / Hash Set 的区别是什么？
+1. 继承的父类：
+  Hash Table：Dictionary类，Map接口
+    public class Hashtable<K,V> extends Dictionary<K,V> implements Map<K,V>, Cloneable, Serializable  
+  Hash Map：AbstractMap类，Map接口
+    public class HashMap<K,V> extends AbstractMap<K,V> implements Map<K,V>, Cloneable, Serializable 
+  Hash Set：
+2. 线程安全性不同
+  Hash Table：Synchronize的
+  Hash Map：非Synchronize的， 并非线程安全的
+  Hash Set：
+3. contains方法
+  Hash Table：contains，containsValue和containsKey三个方法，其中contains和containsValue功能相同
+  Hash Map：containsValue，containsKey
+  Hash Set：
+4. key和value是否允许null值。
+  common：key和value都是对象，并且不能包含重复key，但可以包含重复的value。
+  Hash Table：key和value都不允许出现null值
+  Hash Map：key和value都可以出现null值。当get()方法返回null值时，可能是 HashMap中没有该键，也可能使该键所对应的值为null。
+  因此，在HashMap中不能由get()方法来判断HashMap中是否存在某个键， 而应该用containsKey()方法来判断。
+ 		hmap.put("a", null);
+		hmap.put(null, null);
+		System.out.println(hmap.get(null)); ANS: null, only return the last key that has the value of null
+		System.out.println(hmap.get("a"));  ANS: null, null is the value corresponding to key a
+		System.out.println(hmap.get("b"));  ANS: null, does not contain key b (so we cannot distinguish it from above)
+    System.out.println(hmap.containsKey("b"));  ANS: false. (so this is why we need to use containsKey to judge whether key exists)
+    
+    hmap.put("a", "b");
+		hmap.put(null, "b");
+		System.out.println(hmap.get("b"));  ANS: null, only return the last key that has the value of b, although both has value b.
+    System.out.println(hmap.get(null)); ANS: b
+		System.out.println(hmap.get("a"));  ANS: b
+  Hash Set：
+5. 哈希值的计算方法不同
+如何保存对象：对Key调用hashCode方法，返回的值作为Bucket的位置，讲(key, value)保存到Bucket之中。
+如何获取对象：对key调用hashcode方法，查找到Bucket的位置，从而返回value的值。
+若两个对象是否可以产生相同的hashcode？
+两个对象可以产生相同的hashcode，由于HashMap是根据Bucket存储的，Bucket中的数据结构是LinkedList，故，若两对象hashcode相同则会依次存放在LinkedList中，
+当查找对象的时候根据hashCode进行查找找到相应的Bucket，然后依次在LinkedList中查找对象，若key只与查找的key值相同（equals）则找到该对象。
+  Hash Table：直接使用的是对象的hashCode
+      int hash = key.hashCode();
+      int index = (hash & 0x7FFFFFFF) % tab.length;
+  Hash Map：对象的hashCode的基础上还进行了一些变化
+      int hash = hash(key.hashCode());
+      int i = indexFor(hash, table.length);
+      static int hash(int h) {
+        h ^= (h >>> 20) ^ (h >>> 12);
+        return h ^ (h >>> 7) ^ (h >>> 4);
+      }
+      static int indexFor(int h, int length) {
+        return h & (length-1);
+      }
+  Hash Set：
+6. 数组初始化和扩容方式不同
+  Hash Table：HashTable初始大小是11, Hashtable采用的是2*old+1
+  Hash Map：HashMap初始大小是16, HashMap是2*old
+  Hash Set：
+
+
