@@ -61,3 +61,5 @@ class PairComparator implements Comparator<Pair> {
         return a.val - b.val;
     }
 }
+// 注意要在开PriorityQueue时候添加comparator, 不然后续无法比较不能添加
+PriorityQueue<Pair> minHeap = new PriorityQueue<Pair>(k, new PairComparator());
