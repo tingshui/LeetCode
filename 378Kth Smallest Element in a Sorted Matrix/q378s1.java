@@ -1,5 +1,6 @@
 // idea: 每次取出一个元素，把该元素的下方和右边的元素加入。参与下一轮角逐的只可能是上一轮的较大者，以及新的元素的周围。
 // 我错的地方： 没有考虑重复数字。有可能一个数字即使a 的右边，又是b的左边。
+// 每次复杂度为O(logm)，所以复杂度为O(klogm)
 class Pair{
     public int row, col, value;
     public Pair(int row, int col, int value){
