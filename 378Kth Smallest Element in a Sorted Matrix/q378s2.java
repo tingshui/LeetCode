@@ -8,7 +8,7 @@
 
 // 我错的地方：我用COUNT(N) == K-1来结果。但是可能这个值不是在数列中。
 // 例如：{{1，4}，{2，5}}， k=3，我返回的结果是3，确实有两个数比3小，但是3不在数列中。
-// 所以不能把count=k-1作为判定唯一标准。找到一个类似count(start)<k-1, count(end)<=k-1,之类的值。
+// 所以不能把count=k-1作为判定唯一标准。找到一个类似count(start)<k-1, count(end)<=k-1,之类的值。注意k是重复数字中的时候要处理。
 
 class Solution {
     public int kthSmallest(int[][] matrix, int k) {
