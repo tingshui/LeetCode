@@ -6,6 +6,10 @@
 // 总复杂度为O(nlogm *  logX), m=n, 所以O(nlogn *  logX)
 // 本题是返回数字本身，所以直接用数字算MID就行。区别于求POSITION，他们要用POSITION来算，posistion本身就代表了有几个小于它。
 
+// 我错的地方：我用COUNT(N) == K-1来结果。但是可能这个值不是在数列中。
+// 例如：{{1，4}，{2，5}}， k=3，我返回的结果是3，确实有两个数比3小，但是3不在数列中。
+// 所以不能把count=k-1作为判定唯一标准。
+
 class Solution {
     public int kthSmallest(int[][] matrix, int k) {
         if (matrix == null || matrix.length == 0){
