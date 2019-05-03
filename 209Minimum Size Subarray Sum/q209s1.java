@@ -12,6 +12,7 @@ class Solution {
         while(right < len){
             sum += nums[right];
             // 这个地方要注意。不能用if,要用while。否则不能穷尽所有解。体会一下。
+            //  如果是if，那么[1,2,4,3,0] 结果一定会包括0。
             while (sum >= s){
                 min = Math.min(min, right - left + 1);
                 sum -= nums[left];
