@@ -1,3 +1,5 @@
+// 本题的能取得 O(n) 算法的关键在于，正整数，所以sum向右永远递增，所以左执政不走回头路。
+// example： 1，2，3，4， 求sum=6，以（1，2，3）为首的数列之和一定大于6，所以不用看了。只要看（2，3）继续开头的了。
 // two pointer problem. 我最初没想到。
 class Solution {
     public int minSubArrayLen(int s, int[] nums) {
