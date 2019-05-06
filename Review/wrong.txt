@@ -1,0 +1,12 @@
+1 String, char
+hashmap的containskey,对待char，不会把char转化成Character,而只是读char本身代表的asc值。
+example:    s="a";
+            i=0;
+        	  hmap2.put(String.valueOf(s.charAt(i)), i); 
+            System.out.println(hmap2.containsKey(String.valueOf(s.charAt(i))));  | return true
+            System.out.println(hmap2.containsKey(s.charAt(i)));                  | return false
+所以char对String两种：
+1 ） HashMap<String, Integer> hmap2 = new HashMap<>();
+     hmap2.containsKey(String.valueOf(s.charAt(i)))；
+2 ） HashMap<Character, Integer> hmap = new HashMap<>();
+     hmap.containsKey(s.charAt(i))；
