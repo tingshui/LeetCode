@@ -1,4 +1,4 @@
-// start指针是不回头的，因为重复数字只有可能出现在右端点上。
+// start指针是不回头的，因为回头就会有重复，而新的重复数字只有可能出现在右端点上。
 class Solution {
     public int lengthOfLongestSubstring(String s) {
         if (s == null || s.length() == 0){
