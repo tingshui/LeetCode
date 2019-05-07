@@ -1,3 +1,4 @@
+// start指针是不回头的，因为重复数字只有可能出现在右端点上。
 class Solution {
     public int lengthOfLongestSubstring(String s) {
         if (s == null || s.length() == 0){
@@ -15,25 +16,5 @@ class Solution {
             max = Math.max(max, i - start + 1);
         }
         return max;
-    }
-}
-
-// 优化memory，可以用数组
-public class Solution {
-    public int lengthOfLongestSubstring(String s) {
-        int[] map = new int[256]; // map from character's ASCII to its last occured index        
-        int j = 0;
-        int i = 0;
-        int ans = 0;
-        for (i = 0; i < s.length(); i++) {
-            while (j < s.length() && map[s.charAt(j)]==0) {
-                map[s.charAt(j)] = 1;
-                ans = Math.max(ans, j-i + 1);
-                j ++;
-            }
-            map[s.charAt(i)] = 0;
-        }
-        
-        return ans;
     }
 }
