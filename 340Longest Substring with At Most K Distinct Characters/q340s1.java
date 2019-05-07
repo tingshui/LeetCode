@@ -1,6 +1,7 @@
 // 和003问题很像。
 // 只有当一个出现一个新数字，而且之前的distinct数字是k时候，我们需要彻底删掉一个数字就可以了。
 // 注意一下，两个IF的条件
+// 当然也可以用HASHMAP来做。
 public class Solution {
     public int lengthOfLongestSubstringKDistinct(String s, int k) {
         if (s == null || s.length() == 0){
