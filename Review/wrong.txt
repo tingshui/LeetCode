@@ -10,3 +10,4 @@ example:    s="a";
      hmap2.containsKey(String.valueOf(s.charAt(i)))；
 2 ） HashMap<Character, Integer> hmap = new HashMap<>();
      hmap.containsKey(s.charAt(i))；
+在java中，所有的字符char等价于它的编号: h['a']=h[97]
