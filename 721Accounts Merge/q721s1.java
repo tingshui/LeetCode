@@ -1,5 +1,5 @@
 // not working yet solution
-// 暴力解法： 我没有完全弄完。应该是可以做，可是真的太麻烦，太慢了。
+// 贪心解法： 我没有完全弄完。应该是可以做，可是真的太麻烦，太慢了。
 // input是下面这样就奔溃了。没有办法处理。很麻烦。
 //[["David","David0@m.co","David1@m.co"],["David","David3@m.co","David4@m.co"],
 //["David","David4@m.co","David5@m.co"],["David","David2@m.co","David3@m.co"],["David","David1@m.co","David2@m.co"]]
