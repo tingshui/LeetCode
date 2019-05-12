@@ -1,4 +1,7 @@
 //union find 不会写。
+// 本题问题还是出在类似
+//[["David","David0@m.co","David1@m.co"],["David","David3@m.co","David4@m.co"],"David","David1@m.co","David3@m.co"]]
+// 在第三个“david”中，两个email分别属于第一个user和第二个user.
 class Solution {
     public List<List<String>> accountsMerge(List<List<String>> accounts) {
         if (accounts == null || accounts.size() == 0){
