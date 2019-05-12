@@ -1,3 +1,4 @@
+//union find 不会写。
 class Solution {
     public List<List<String>> accountsMerge(List<List<String>> accounts) {
         if (accounts == null || accounts.size() == 0){
