@@ -1,60 +1,83 @@
-// not working yet solution
-// 贪心解法： 我没有完全弄完。应该是可以做，可是真的太麻烦，太慢了。
-// input是下面这样就奔溃了。没有办法处理。很麻烦。
-//[["David","David0@m.co","David1@m.co"],["David","David3@m.co","David4@m.co"],
-//["David","David4@m.co","David5@m.co"],["David","David2@m.co","David3@m.co"],["David","David1@m.co","David2@m.co"]]
-//我的output: [["David","David0@m.co","David1@m.co"],["David","David2@m.co","David3@m.co","David4@m.co","David5@m.co"]]
+//把我的WRONG2终于修改对了。
 class Solution {
     public List<List<String>> accountsMerge(List<List<String>> accounts) {
         if (accounts == null || accounts.size() == 0){
             return null;
         }
-        HashSet<String> emailSet = new HashSet<>();
-        HashMap<String, Integer> user = new HashMap<>();
+        // As user name can be duplicate, we cannot use username as group name
+        // first is group index, second is the user name
+        HashMap<Integer, String> user = new HashMap<>();
+        // first is email, second is group number
+        HashMap<String, Integer> emailSet = new HashMap<>();
+        int[] root = new int[accounts.size()];
         List<List<String>> result = new ArrayList<List<String>>();
-        
+        for (int i = 0; i < root.length; i++){
+            root[i] = i;
+        }
+        for (int i = 0; i < accounts.size(); i++){
+            user.put(i, accounts.get(i).get(0));
+        }
         for (int i = 0; i < accounts.size(); i++){
             List<String> email = accounts.get(i);
             String name = email.get(0);
-            //flag = 0 new user, flag = 1 old user.
-            int flag = 0;
-            List<String> toAdd = new ArrayList<>();
             for (int j = 1; j < email.size(); j++){
-                if (emailSet.contains(email.get(j))){
-                    flag = 1;
+                if (emailSet.containsKey(email.get(j))){
+                    // 修改1： 这里要让每个ACCOUNT第一个以后的EMAIL都归属于同一个ACCOUNT的第一个email。
+                    // 否则可能出现，在这种情况下：
+                    // u1：e1,e2; u2: e3,e4; u3: e1,e3。导致： us: e5= u1, e3 = u2.
+                    // 同时这样做也可以使得后来的赋值 覆盖之前的赋值。例如上面的例子
+                    // e3 的ROOT是u2. 重新赋值使得u2的ROOT变成 e1的root，u1.
+                    if (j == 1){
+                        root[i] = findroot(root,emailSet.get(email.get(j)));
+                    }
+                    else{
+                        root[findroot(root,emailSet.get(email.get(j)))] = findroot(root,emailSet.get(email.get(1)));
+                    }                    
+                }
+                else{
+                    emailSet.put(email.get(j), i);
                 }
             }
-            // some accounts has duplicate emails, if we merger below function with above, we will get wrong flag
-            // because the duplicate second email will flag the user as a existing user, even it is new.
-            // ["Ethan","Ethan0@m.co","Ethan3@m.co","Ethan3@m.co"]
-            for (int j = 1; j < email.size(); j++){
-                if (!emailSet.contains(email.get(j))){
-                    emailSet.add(email.get(j));
-                    toAdd.add(email.get(j));
+        }
+        
+        HashSet<String> added = new HashSet<>();
+        // first the group number, second is the location in result set
+        HashMap<Integer, Integer> hm = new HashMap<>();
+        // i rep user i account
+        for (int i = 0; i < root.length; i++){
+            // nlist rep which items from the list have not yet been added.
+            List<String> nlist = new ArrayList<String>();
+            for (int j = 1; j < accounts.get(i).size(); j++){
+                if(!added.contains(accounts.get(i).get(j))){
+                    added.add(accounts.get(i).get(j));
+                    nlist.add(accounts.get(i).get(j));
                 }
             }
-
-            if (flag == 0){
-                int index = result.size();
-                // some accounts has duplicate emails, we cannot add the original email list
-                List<String> newaccount = new ArrayList<String>();
-                newaccount.add(name);
-                for(int j = 0; j < toAdd.size(); j++){
-                    newaccount.add(toAdd.get(j));                    
-                }
-                result.add(newaccount);
-                user.put(name, index);
-            }
-            else{
-                int index = user.get(name);
-                for(int j = 0; j < toAdd.size(); j++){
-                    result.get(index).add(toAdd.get(j));                    
+            if (hm.containsKey(findroot(root,root[i]))){
+                for (int j = 0; j < nlist.size(); j++){
+                    //修改2：这里不能用root[i],必须要找到最初始的root了。
+                    result.get(hm.get(findroot(root,root[i]))).add(nlist.get(j));                       
                 }                
             }
-        }
+            else{
+                hm.put(findroot(root,root[i]), result.size());
+                List<String> newaccount = new ArrayList<String>();
+                newaccount.add(accounts.get(findroot(root,root[i])).get(0));
+                for (int j = 0; j < nlist.size(); j++){                    
+                    newaccount.add(nlist.get(j));                       
+                }
+                result.add(newaccount);
+            }
+        }       
         for (int i = 0; i < result.size(); i++){
             Collections.sort(result.get(i));
-        }
+        } 
         return result;
+    }
+    public int findroot(int[] root, int index){
+        while(index != root[index]){
+            index = root[index];
+        }
+        return index;
     }
 }
