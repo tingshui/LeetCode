@@ -1,4 +1,6 @@
 //把我的WRONG2终于修改对了。
+//思路：user记录每个用户对应哪一组。有相同EMAIL的用户对应同一组。emailSet记录每一个email对应哪一组。其实，组就是user，只是相同name的user不一定是
+//同一个用户。然后遍历所有用户所有email，通过判定邮件来判定USER属于哪一组。保证每一accout的所有email属于同一个组。保证后来的UPDATE信息覆盖之前的信息。
 class Solution {
     public List<List<String>> accountsMerge(List<List<String>> accounts) {
         if (accounts == null || accounts.size() == 0){
