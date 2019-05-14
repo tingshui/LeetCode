@@ -14,11 +14,9 @@ class Solution {
         HashMap<String, Integer> emailSet = new HashMap<>();
         int[] root = new int[accounts.size()];
         List<List<String>> result = new ArrayList<List<String>>();
-        for (int i = 0; i < root.length; i++){
-            root[i] = i;
-        }
         for (int i = 0; i < accounts.size(); i++){
             user.put(i, accounts.get(i).get(0));
+            root[i] = i;
         }
         for (int i = 0; i < accounts.size(); i++){
             List<String> email = accounts.get(i);
@@ -78,9 +76,11 @@ class Solution {
         return result;
     }
     public int findroot(int[] root, int index){
-        while(index != root[index]){
-            index = root[index];
-        }
-        return index;
+        // improvement:可以直接这么写。好简洁！！！！
+        return index == root[index] ? index: findroot(root, root[index]);
+//         while(index != root[index]){
+//             index = root[index];
+//         }
+//         return index;
     }
 }
