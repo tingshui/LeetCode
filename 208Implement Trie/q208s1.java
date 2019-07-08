@@ -1,41 +1,43 @@
-public class TrieNood {
-    
-    public Trie[] child;
+class TrieNood {
+    public TrieNood[] child;
     public boolean isword;
     
     public TrieNood() {
         int num = 26;
-        child = new Trie[num];
+        child = new TrieNood[num];
         isword = false;
     }
     
     public void insert (String word, int index) {
         if (index == word.length()){
-            isword = true;
+            this.isword = true;
             return;
         }
         int charc_pos = word.charAt(index) - 'a';
-        child[charc_pos] = new TrieNood();
-        insert(word, index + 1);
+        if (child[charc_pos] == null){
+            child[charc_pos] = new TrieNood();
+        }
+        child[charc_pos].insert(word, index + 1);
     }
     
-    public boolean find (String word, int index) {
-        if (index ==  word.length()){
-            return true;
+    public TrieNood find (String word, int index) {
+        if (index == word.length()){
+            return this;
         }
         int charc_pos = word.charAt(index) - 'a';
         if (child[charc_pos] == null) {
-            return false;
+            return null;
         }
-        find (word, index + 1);
+        return child[charc_pos].find(word, index + 1);
     }
 }
 
 public class Trie {
-    
+    public TrieNood root;
     
     public Trie() {
         // do intialization if necessary
+    	root = new TrieNood();
     }
 
     /*
@@ -44,6 +46,7 @@ public class Trie {
      */
     public void insert(String word) {
         // write your code here
+    	root.insert(word, 0);
     }
 
     /*
@@ -52,6 +55,8 @@ public class Trie {
      */
     public boolean search(String word) {
         // write your code here
+    	TrieNood result = root.find(word, 0);
+    	return (result != null && result.isword == true);
     }
 
     /*
@@ -60,5 +65,8 @@ public class Trie {
      */
     public boolean startsWith(String prefix) {
         // write your code here
+    	TrieNood result = root.find(prefix, 0);
+    	return (result != null);
+
     }
 }
